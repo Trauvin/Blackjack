@@ -55,3 +55,44 @@ def compara_maos(casa, jogador):
         print("Você venceu!")
     else:
         print("Empatou")
+
+def blackjack():
+
+    baralho = mistura_baralho()
+
+    casa = []
+    jogador = []
+
+    # distribui a mao inicial em 2 rodadas
+    for i in range(2):
+        distribui_carta(baralho, jogador)
+        distribui_carta(baralho, casa)
+
+    # apresenta as mãos
+    print("Casa: {:>7}{:>7} ".format(casa[0], casa[1]))
+    print("Você: {:>7}{:>7} ".format(jogador[0], jogador[1]))
+
+    resposta = input("Deseja carta (c) - o default - ou parar (p): ")
+
+    while resposta in {'', 'c', 'carta'}:
+        carta = distribui_carta(baralho, jogador)
+        print("Você recebeu {:>7}".format(carta))
+
+        if total(jogador) > 21:
+            print("Você ultrapassou...perdeu.")
+            return 
+
+        resposta = input("Deseja carta (c) - o default - ou parar (p)")
+
+    while total(casa) < 17:
+        carta = distribui_carta(baralho, casa)
+        print("A casa recebeu {:>7}".format(carta))
+
+        if total(casa) > 21:
+            print("A casa ultrapassou... Você venceu!")
+            return
+
+    compara_maos(casa, jogador)
+
+blackjack()
+        
